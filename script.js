@@ -4,7 +4,6 @@ console.clear();
 document.addEventListener("DOMContentLoaded", () => {
   const RImages = document.querySelectorAll(".r_images .r_child");
   let TotalImageLoaded = 0;
-  console.log(RImages.length);
   RImages.forEach((Image, i) => {
     const RObject = Image.querySelector(".r_object");
     const img = document.createElement("img");
