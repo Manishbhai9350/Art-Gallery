@@ -1,0 +1,210 @@
+/*?? General Sans Font Import  */
+@font-face {
+    font-family: 'Sans-Thin';
+    src: url('/public/fonts/GeneralSans/GeneralSans-Light.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Sans-Bold';
+    src: url('/public/fonts/GeneralSans/GeneralSans-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Sans-Var';
+    src: url('/public/fonts/GeneralSans/GeneralSans-Variable.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Sans-Var-Italic';
+    src: url('/public/fonts/GeneralSans/GeneralSans-VariableItalic.woff2') format('woff2');
+}
+
+/*?? Zodiak Font Import */
+
+@font-face {
+    font-family: 'Zodiak-Thin';
+    src: url('/public/Fonts/Zodiak/Zodiak-Thin.ttf');
+}
+
+@font-face {
+    font-family: 'Zodiak-Bold';
+    src: url('/public/Fonts/Zodiak/Zodiak-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Zodiak-Var';
+    src: url('/public/Fonts/Zodiak/Zodiak-Variable.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Zodiak-Var-Italic';
+    src: url('/public/Fonts/Zodiak/Zodiak-VariableItalic.woff2') format('woff2');
+}
+
+$primary-text: #121111;
+$secondary-text: #121111;
+$primary-bg: #F9F2ED;
+$secondary-bg:#121111;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    background: $primary-bg;
+}
+
+main {
+    width: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+section {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+nav {
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 70px;
+    width: 270px;
+    gap: 1rem;
+    p {
+        position: relative;
+        z-index: 110;
+        font-family: 'Sans-Var';
+        font-weight: 500;
+        color: $primary-text;
+        font-size: .8rem;
+    }
+    .nav-lines {
+        position: relative;
+        z-index: 110;
+        width: 50px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: .4rem;
+        cursor: pointer;
+        .line {
+            width: 100%;
+            height: 1px;
+            background: $secondary-text;
+        }
+    }
+}
+
+nav .nav-content {
+    z-index: 100;
+    width:100%;
+    height: 300px;
+    background: #e7dcd5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: 70px;
+    padding-inline: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .7rem;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+    a {
+        color: $primary-text;
+        text-transform: uppercase;
+        text-decoration: none;
+        text-align: start;
+        width: 100%;
+        font-family: 'Sans-Var';
+        font-weight: 600;
+        font-size: 1.7rem;
+        display: inline-block;
+        transform: translateY(100%);
+    }
+    h1 {
+        width: 100%;
+        overflow: hidden;
+    }
+}
+
+.landing {
+    .landing-text {
+        z-index: 90;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        text-align: center;
+        color: $primary-text;
+        h1 {
+            font-family: 'Zodiak-Var';
+            font-weight: 400;
+            font-size: 5rem;
+            white-space: nowrap;
+            line-height: 5.5rem;
+        }
+        h3 {
+            font-family: 'Sans-Var';
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-top: 1rem;
+            opacity: .8;
+        }
+    }
+    .landing-images {
+        width:100%;
+        height:100vh;
+        position:relative;
+        overflow:hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .images {
+            width: 100%;
+            height: 100%;
+            z-index: 90;
+            display: grid;
+            place-items:center;
+            grid-gap: 5rem;
+            .Image {
+                display:flex;
+                justify-content:center;
+                align-items: center;
+                flex-direction: column;
+                gap: 5px;
+                background: white;
+                img {
+                    width:80px;
+                    height:70px;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+}
+
+
+section.page-2 {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background: $secondary-bg;
+}
