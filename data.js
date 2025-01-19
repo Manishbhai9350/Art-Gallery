@@ -31,4 +31,20 @@ export const Data = [
         img:'./public/Images/img7.jpg',
         title:'Cristiano The Man [7]'
     },
+    {
+        img:'./public/Images/img8.jpg',
+        title:'Cristiano The Man [7]'
+    },
+    {
+        img:'./public/Images/img9.jpg',
+        title:'Cristiano The Man [7]'
+    },
+    {
+        img:'./public/Images/img10.jpg',
+        title:'Cristiano The Man [7]'
+    },
+    {
+        img:'./public/Images/img11.jpg',
+        title:'Cristiano The Man [7]'
+    }
 ]
