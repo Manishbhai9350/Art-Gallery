@@ -1,25 +1,73 @@
 import { Data } from "./data.js";
+import Lenis from "https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/+esm";
 console.clear();
 
+gsap.registerPlugin(ScrollTrigger);
+
 document.addEventListener("DOMContentLoaded", () => {
-  const RImages = document.querySelectorAll(".r_images .r_child");
+  
+
+  ScrollTrigger.create({
+    trigger:'.landing',
+    start:"top top",
+    end:'bottom top',
+    onUpdate(e){
+        const Progress = e.progress;
+        const TranslateY = Progress * 200 
+        gsap.set('.landing-content',{
+            y:TranslateY
+        })
+    }
+  })
+
+  const lenis = new Lenis();
+  gsap.ticker.add((t) => lenis.raf(t * 1000));
+  gsap.ticker.lagSmoothing(0);
+  lenis.on("scroll", ScrollTrigger.update);
+
+  // Use gsap.utils.toArray to handle NodeList conversion
+  const RChilds = gsap.utils.toArray(".r_images .r_child");
+  const RImages = gsap.utils.toArray(
+    ".r_images .r_image .r_child .r_object img"
+  );
+
+  const RTheta = 360 / RChilds.length;
+
+
   let TotalImageLoaded = 0;
-  RImages.forEach((Image, i) => {
-    const RObject = Image.querySelector(".r_object");
+  RChilds.forEach((Child, i) => {
+    const RObject = Child.querySelector(".r_object");
     const img = document.createElement("img");
     img.src = Data[i].img;
     RObject.appendChild(img);
+
+    gsap.to(Child,{
+        rotate:i * RTheta,
+        scrollTrigger:{
+            trigger:'.page-2',
+            start:'top 35%',
+            end:'top -5%',
+            scrub:2,
+        }
+    })
+
     img.onload = () => {
       TotalImageLoaded++;
       gsap.to(".loading-line", {
-        scaleX: TotalImageLoaded / RImages.length,
+        scaleX: TotalImageLoaded / RChilds.length,
         onComplete() {
-          if (TotalImageLoaded == RImages.length) {
-            gsap.to(".loader", {
-              delay:.3,
-              y: "-100%",
+          if (TotalImageLoaded == RChilds.length) {
+            gsap.to(".loading", {
+              delay: 0.2,
+              scaleX: 0,
               duration: 0.6,
-              ease: "power3.out",
+              ease: "power2.in",
+            });
+            gsap.to(".loader", {
+              delay: 0.5,
+              y: "-100%",
+              duration: 1.2,
+              ease: "power2.in",
               onComplete() {
                 gsap.set(".loader", {
                   display: "none",
@@ -35,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const ImagesCon = document.querySelector(".landing-images .images");
   const NavIcon = document.querySelector(".nav-lines");
   const NavIconLines = NavIcon.querySelectorAll(".nav-lines .line");
-
+  const Page2 = document.querySelector(".page-2");
   let IsNavOpen = false;
 
   const ToggleNav = () => {
@@ -123,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   };
-  // ShowHeroImages();
+  ShowHeroImages();
   const HandleImageMove = (() => {
     let OpacityID = null;
     return (e) => {
@@ -154,16 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   })();
 
-  const RTheta = 360 / RImages.length;
-  RImages.forEach((RImage, i) => {
-    gsap.set(RImage, {
-      rotate: RTheta * i,
-    });
-  });
 
   NavIcon.addEventListener("click", ToggleNav);
 
-  // document.addEventListener("mousemove", HandleImageMove);
+  document.addEventListener("mousemove", HandleImageMove);
 
   let ResizeID = null;
   window.onresize = () => {

@@ -1,42 +1,42 @@
 /*?? General Sans Font Import  */
 @font-face {
-  font-family: 'Sans-Thin';
+  font-family: "Sans-Thin";
   src: url("/public/fonts/GeneralSans/GeneralSans-Light.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: 'Sans-Bold';
+  font-family: "Sans-Bold";
   src: url("/public/fonts/GeneralSans/GeneralSans-Bold.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: 'Sans-Var';
+  font-family: "Sans-Var";
   src: url("/public/fonts/GeneralSans/GeneralSans-Variable.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: 'Sans-Var-Italic';
+  font-family: "Sans-Var-Italic";
   src: url("/public/fonts/GeneralSans/GeneralSans-VariableItalic.woff2") format("woff2");
 }
 
 /*?? Zodiak Font Import */
 @font-face {
-  font-family: 'Zodiak-Thin';
+  font-family: "Zodiak-Thin";
   src: url("/public/Fonts/Zodiak/Zodiak-Thin.ttf");
 }
 
 @font-face {
-  font-family: 'Zodiak-Bold';
+  font-family: "Zodiak-Bold";
   src: url("/public/Fonts/Zodiak/Zodiak-Bold.ttf");
 }
 
 @font-face {
-  font-family: 'Zodiak-Var';
+  font-family: "Zodiak-Var";
   src: url("/public/Fonts/Zodiak/Zodiak-Variable.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: 'Zodiak-Var-Italic';
+  font-family: "Zodiak-Var-Italic";
   src: url("/public/Fonts/Zodiak/Zodiak-VariableItalic.woff2") format("woff2");
 }
 
@@ -47,14 +47,14 @@
   padding: 0;
 }
 
-html, body {
+html,
+body {
   width: 100%;
-  background: #F9F2ED;
+  background: #f9f2ed;
 }
 
 main {
   width: 100%;
-  height: 100vh;
   overflow-x: hidden;
 }
 
@@ -92,10 +92,10 @@ nav {
 nav p {
   position: relative;
   z-index: 10000;
-  font-family: 'Sans-Var';
+  font-family: "Sans-Var";
   font-weight: 500;
   color: #121111;
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 nav .nav-lines {
@@ -116,7 +116,7 @@ nav .nav-lines {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  gap: .4rem;
+  gap: 0.4rem;
   cursor: pointer;
 }
 
@@ -149,7 +149,7 @@ nav .nav-content {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  gap: .7rem;
+  gap: 0.7rem;
   -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
           clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
 }
@@ -160,7 +160,7 @@ nav .nav-content a {
   text-decoration: none;
   text-align: start;
   width: 100%;
-  font-family: 'Sans-Var';
+  font-family: "Sans-Var";
   font-weight: 600;
   font-size: 1.7rem;
   display: inline-block;
@@ -175,7 +175,17 @@ nav .nav-content h1 {
   position: relative;
 }
 
-.landing .landing-text {
+.landing {
+  overflow: hidden;
+}
+
+.landing .landing-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.landing .landing-content .landing-text {
   z-index: 120;
   position: absolute;
   top: 50%;
@@ -186,23 +196,23 @@ nav .nav-content h1 {
   color: #121111;
 }
 
-.landing .landing-text h1 {
-  font-family: 'Zodiak-Var';
+.landing .landing-content .landing-text h1 {
+  font-family: "Zodiak-Var";
   font-weight: 400;
   font-size: 5rem;
   white-space: nowrap;
   line-height: 5.5rem;
 }
 
-.landing .landing-text h3 {
-  font-family: 'Sans-Var';
+.landing .landing-content .landing-text h3 {
+  font-family: "Sans-Var";
   font-weight: 500;
   text-transform: uppercase;
   margin-top: 1rem;
-  opacity: .8;
+  opacity: 0.8;
 }
 
-.landing .landing-images {
+.landing .landing-content .landing-images {
   width: 100%;
   height: 100vh;
   position: relative;
@@ -218,7 +228,7 @@ nav .nav-content h1 {
           align-items: center;
 }
 
-.landing .landing-images .images {
+.landing .landing-content .landing-images .images {
   width: 100%;
   height: 100%;
   z-index: 100;
@@ -228,7 +238,8 @@ nav .nav-content h1 {
   grid-gap: 5rem;
 }
 
-.landing .landing-images .images .Image {
+.landing .landing-content .landing-images .images .Image {
+  opacity: 0.8;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -246,7 +257,7 @@ nav .nav-content h1 {
   background: white;
 }
 
-.landing .landing-images .images .Image img {
+.landing .landing-content .landing-images .images .Image img {
   width: 80px;
   height: 70px;
   -o-object-fit: cover;
@@ -255,12 +266,12 @@ nav .nav-content h1 {
 
 section.page-2 {
   padding-block: 5px;
-  overflow: hidden;
   background: #121111;
   position: relative;
 }
 
 section.page-2 .text {
+  pointer-events: none;
   position: absolute;
   z-index: 100;
   top: 50%;
@@ -269,7 +280,7 @@ section.page-2 .text {
           transform: translate(-50%, -50%);
   color: white;
   gap: 1rem;
-  font-family: 'Sans-Var';
+  font-family: "Sans-Var";
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -283,7 +294,7 @@ section.page-2 .text {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  gap: .4rem;
+  gap: 0.4rem;
 }
 
 section.page-2 .text .headings {
@@ -304,12 +315,12 @@ section.page-2 .text .headings h1 {
 
 section.page-2 .text .paras {
   width: 300px;
-  font-size: .9rem;
+  font-size: 0.9rem;
   text-align: center;
 }
 
 section.page-2 .text .paras span {
-  font-family: 'Sans-Var-Italic';
+  font-family: "Sans-Var-Italic";
 }
 
 section.page-2 .rotating-images {
@@ -324,7 +335,6 @@ section.page-2 .rotating-images {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  pointer-events: none;
 }
 
 section.page-2 .rotating-images .r_images {
@@ -353,7 +363,7 @@ section.page-2 .rotating-images .r_images .r_image {
 
 section.page-2 .rotating-images .r_images .r_image .r_child {
   height: 100px;
-  width: 600px;
+  width: 90vh;
   aspect-ratio: 1;
   position: absolute;
   -webkit-transform-origin: center;
@@ -378,6 +388,10 @@ section.page-2 .rotating-images .r_images .r_image .r_child .r_object {
           transform: rotate(90deg);
 }
 
+section.page-2 .rotating-images .r_images .r_image .r_child .r_object img {
+  pointer-events: none;
+}
+
 .loader {
   width: 100%;
   height: 100vh;
@@ -386,7 +400,7 @@ section.page-2 .rotating-images .r_images .r_image .r_child .r_object {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  background: white;
+  background: #fffef5;
   z-index: 10000000;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -407,6 +421,8 @@ section.page-2 .rotating-images .r_images .r_image .r_child .r_object {
   background: #cecece;
   border-radius: 10px;
   overflow: hidden;
+  -webkit-transform-origin: center;
+          transform-origin: center;
 }
 
 .loader .loading .loading-line {
