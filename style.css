@@ -1,43 +1,43 @@
 /*?? General Sans Font Import  */
 @font-face {
   font-family: "Sans-Thin";
-  src: url("./public/fonts/GeneralSans/GeneralSans-Light.woff2") format("woff2");
+  src: url("./public/Fonts/GeneralSans/GeneralSans-Light.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "Sans-Bold";
-  src: url("./public/fonts/GeneralSans/GeneralSans-Bold.woff2") format("woff2");
+  src: url("./public/Fonts/GeneralSans/GeneralSans-Bold.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "Sans-Var";
-  src: url("./public/fonts/GeneralSans/GeneralSans-Variable.woff2") format("woff2");
+  src: url("./public/Fonts/GeneralSans/GeneralSans-Variable.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "Sans-Var-Italic";
-  src: url("./public/fonts/GeneralSans/GeneralSans-VariableItalic.woff2") format("woff2");
+  src: url("./public/Fonts/GeneralSans/GeneralSans-VariableItalic.woff2") format("woff2");
 }
 
 /*?? Zodiak Font Import */
 @font-face {
   font-family: "Zodiak-Thin";
-  src: url("./public/fonts/Zodiak/Zodiak-Thin.ttf");
+  src: url("./public/Fonts/Zodiak/Zodiak-Thin.ttf");
 }
 
 @font-face {
   font-family: "Zodiak-Bold";
-  src: url("./public/fonts/Zodiak/Zodiak-Bold.ttf");
+  src: url("./public/Fonts/Zodiak/Zodiak-Bold.ttf");
 }
 
 @font-face {
   font-family: "Zodiak-Var";
-  src: url("./public/fonts/Zodiak/Zodiak-Variable.woff2") format("woff2");
+  src: url("./public/Fonts/Zodiak/Zodiak-Variable.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "Zodiak-Var-Italic";
-  src: url("./public/fonts/Zodiak/Zodiak-VariableItalic.woff2") format("woff2");
+  src: url("./public/Fonts/Zodiak/Zodiak-VariableItalic.woff2") format("woff2");
 }
 
 * {
