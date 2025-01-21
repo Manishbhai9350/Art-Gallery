@@ -5,74 +5,71 @@ console.clear();
 gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener("DOMContentLoaded", () => {
-  
-
-  ScrollTrigger.create({
-    trigger:'.landing',
-    start:"top top",
-    end:'bottom top',
-    onUpdate(e){
-        const Progress = e.progress;
-        const TranslateY = Progress * 200 
-        gsap.set('.landing-content',{
-            y:TranslateY
-        })
-    }
-  })
-
   const lenis = new Lenis();
+  const throttle = (func, limit) => {
+    let inThrottle;
+    return (...args) => {
+      if (!inThrottle) {
+        func.apply(this, args);
+        inThrottle = true;
+        setTimeout(() => (inThrottle = false), limit);
+      }
+    };
+  };
+
+  // Smooth scrolling integration
   gsap.ticker.add((t) => lenis.raf(t * 1000));
-  gsap.ticker.lagSmoothing(0);
   lenis.on("scroll", ScrollTrigger.update);
+  gsap.ticker.lagSmoothing(0);
 
-  // Use gsap.utils.toArray to handle NodeList conversion
+  // Scroll-triggered animations
+  ScrollTrigger.create({
+    trigger: ".landing",
+    start: "top top",
+    end: "bottom top",
+    onUpdate(e) {
+      const progress = e.progress;
+      const translateY = progress * 200;
+      gsap.set(".landing-content", { y: translateY });
+    },
+  });
+
+  // Rotating child elements with scroll
   const RChilds = gsap.utils.toArray(".r_images .r_child");
-  const RImages = gsap.utils.toArray(
-    ".r_images .r_image .r_child .r_object img"
-  );
-
   const RTheta = 360 / RChilds.length;
+  RChilds.forEach((Child, i) => {
+    gsap.to(Child, {
+      rotate: i * RTheta,
+      scrollTrigger: {
+        trigger: ".page-2",
+        start: "top 35%",
+        end: "top -5%",
+        scrub: 2,
+      },
+    });
+  });
 
-
-  let TotalImageLoaded = 0;
+  // Loading logic
+  let totalImageLoaded = 0;
   RChilds.forEach((Child, i) => {
     const RObject = Child.querySelector(".r_object");
     const img = document.createElement("img");
     img.src = Data[i].img;
     RObject.appendChild(img);
 
-    gsap.to(Child,{
-        rotate:i * RTheta,
-        scrollTrigger:{
-            trigger:'.page-2',
-            start:'top 35%',
-            end:'top -5%',
-            scrub:2,
-        }
-    })
-
     img.onload = () => {
-      TotalImageLoaded++;
+      totalImageLoaded++;
       gsap.to(".loading-line", {
-        scaleX: TotalImageLoaded / RChilds.length,
+        scaleX: totalImageLoaded / RChilds.length,
         onComplete() {
-          if (TotalImageLoaded == RChilds.length) {
-            gsap.to(".loading", {
-              delay: 0.2,
-              scaleX: 0,
-              duration: 0.6,
-              ease: "power2.in",
-            });
+          if (totalImageLoaded === RChilds.length) {
+            gsap.to(".loading", { delay: 0.2, scaleX: 0, duration: 0.6, ease: "power2.in" });
             gsap.to(".loader", {
               delay: 0.5,
               y: "-100%",
               duration: 1.2,
               ease: "power2.in",
-              onComplete() {
-                gsap.set(".loader", {
-                  display: "none",
-                });
-              },
+              onComplete: () => gsap.set(".loader", { display: "none" }),
             });
           }
         },
@@ -80,138 +77,97 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   });
 
-  const ImagesCon = document.querySelector(".landing-images .images");
-  const NavIcon = document.querySelector(".nav-lines");
-  const NavIconLines = NavIcon.querySelectorAll(".nav-lines .line");
-  const Page2 = document.querySelector(".page-2");
-  let IsNavOpen = false;
-
-  const ToggleNav = () => {
-    if (IsNavOpen) {
-      IsNavOpen = false;
-      gsap.to(".nav-content a", {
-        y: "100%",
-        delay: 0.1,
-        stagger: 0.04,
-      });
-      gsap.to(".nav-content", {
-        delay: 0.2,
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-        duration: 0.6,
-        ease: "power2.out",
-      });
-      gsap.to(".nav-lines", {
-        gap: "0.4rem",
-      });
-      gsap.to(NavIconLines[0], {
-        rotate: 0,
-      });
-      gsap.to(NavIconLines[1], {
-        rotate: 0,
-      });
-    } else {
-      IsNavOpen = true;
-      gsap.to(".nav-lines", {
-        gap: 0,
-      });
-      gsap.to(NavIconLines[0], {
-        rotate: 45,
-      });
-      gsap.to(NavIconLines[1], {
-        rotate: -45,
-      });
-      gsap.to(".nav-content", {
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-        duration: 1,
-        ease: "power3",
-      });
-      gsap.to(".nav-content a", {
-        y: 0,
-        delay: 0.2,
-        stagger: 0.04,
-      });
-    }
-  };
-
-  const ShowHeroImages = () => {
-    ImagesCon.innerHTML = "";
+  // Optimized image grid display
+  const imagesCon = document.querySelector(".landing-images .images");
+  const showHeroImages = () => {
+    imagesCon.innerHTML = "";
     const width = innerWidth;
     const height = innerHeight;
-    const TotalWidth = width * 2;
-    const TotalHeight = height * 2;
-    const Cols = Math.min(10, Math.floor(TotalWidth / 100));
-    const Rows = Math.min(6, Math.floor(TotalHeight / 100));
-    gsap.set(ImagesCon, {
-      width: TotalWidth,
-      height: TotalHeight,
-      gridTemplateRows: Rows,
-      gridTemplateColumns: Cols,
+    const totalWidth = width * 2;
+    const totalHeight = height * 2;
+    const cols = Math.min(10, Math.floor(totalWidth / 100));
+    const rows = Math.min(6, Math.floor(totalHeight / 100));
+
+    gsap.set(imagesCon, {
+      width: totalWidth,
+      height: totalHeight,
+      gridTemplateRows: `repeat(${rows}, 1fr)`,
+      gridTemplateColumns: `repeat(${cols}, 1fr)`,
     });
 
-    for (let i = 0; i < Cols; i++) {
-      for (let j = 0; j < Rows; j++) {
-        const RI = Math.floor(Math.random() * Data.length);
-        const Image = document.createElement("div");
-        Image.classList.add("Image");
-        Image.innerHTML = `<img src='${Data[RI].img}' />`;
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        const ri = Math.floor(Math.random() * Data.length);
+        const image = document.createElement("div");
+        image.classList.add("Image");
+        image.innerHTML = `<img src='${Data[ri].img}' />`;
 
-        const DeltaX = i % 2 == 0 ? ((Math.random() - 0.5) * width) / 10 : 0;
-        const DeltaY = j % 2 == 0 ? ((Math.random() - 0.5) * width) / 10 : 0;
-
-        gsap.set(Image, {
+        gsap.set(image, {
           width: 100,
           height: 100,
           gridColumn: i + 1,
           gridRow: j + 1,
-          // background:'red',
-          x: DeltaX,
-          y: DeltaY,
+          x: i % 2 === 0 ? (Math.random() - 0.5) * width / 10 : 0,
+          y: j % 2 === 0 ? (Math.random() - 0.5) * width / 10 : 0,
         });
-        ImagesCon.appendChild(Image);
+        imagesCon.appendChild(image);
       }
     }
   };
-  ShowHeroImages();
-  const HandleImageMove = (() => {
-    let OpacityID = null;
-    return (e) => {
-      clearTimeout(OpacityID);
-      gsap.to(".images .Image", {
-        opacity: 1,
-        duration: 0.3,
-        stagger: 0.001,
-      });
-      const { clientX: x, clientY: y } = e;
-      const Progress = {
-        x: ((x - innerWidth / 2) / innerWidth) * 10,
-        y: ((y - innerHeight / 2) / innerHeight) * 10,
-      };
-      gsap.to(".images", {
-        x: `${Progress.x}%`,
-        y: `${Progress.y}%`,
-        duration: 1,
-        ease: [0.61, 1, 0.88, 1],
-        overwrite: "auto",
-      });
-      OpacityID = setTimeout(() => {
-        gsap.to(".images .Image", {
-          opacity: 0.8,
-          duration: 0.5,
-        });
-      }, 600);
+  showHeroImages();
+
+  // Throttled mousemove event
+  const handleImageMove = throttle((e) => {
+    const { clientX: x, clientY: y } = e;
+    const progress = {
+      x: ((x - innerWidth / 2) / innerWidth) * 10,
+      y: ((y - innerHeight / 2) / innerHeight) * 10,
     };
-  })();
 
+    gsap.to(".images", {
+      x: `${progress.x}%`,
+      y: `${progress.y}%`,
+      duration: 1,
+      ease: [0.61, 1, 0.88, 1],
+    });
+  }, 50);
 
-  NavIcon.addEventListener("click", ToggleNav);
+  document.querySelector(".landing").addEventListener("mousemove", handleImageMove);
 
-  document.querySelector('.landing').addEventListener("mousemove", HandleImageMove);
+  // Navigation toggle
+  const navIcon = document.querySelector(".nav-lines");
+  const navIconLines = navIcon.querySelectorAll(".line");
+  let isNavOpen = false;
 
-  let ResizeID = null;
+  const toggleNav = () => {
+    isNavOpen = !isNavOpen;
+    const timeline = gsap.timeline();
+
+    if (isNavOpen) {
+      timeline
+        .to(navIconLines[0], { rotate: 45 })
+        .to(navIconLines[1], { rotate: -45 }, "<")
+        .to('.nav-lines',{gap:0},'<')
+        .to(".nav-content", { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", duration: 1 })
+        .to(".nav-content a", { y: 0, stagger: 0.04 }, "<0.2");
+      } else {
+        timeline
+        .to(".nav-content a", { y: "100%", stagger: 0.04 })
+        .to(".nav-content", { clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)", duration: 0.6 }, "<0.2")
+        .to(navIconLines[0], { rotate: 0 })
+        .to(navIconLines[1], { rotate: 0 }, "<")
+        .to('.nav-lines',{gap:'0.4rem'},'<')
+    }
+  };
+
+  navIcon.addEventListener("click", toggleNav);
+
+  // Resize handling
+  let resizeID;
   window.onresize = () => {
-    clearTimeout(ResizeID);
-    ResizeID = setTimeout(() => {
-      ShowHeroImages();
+    clearTimeout(resizeID);
+    resizeID = setTimeout(() => {
+      showHeroImages();
     }, 1000);
   };
 });
