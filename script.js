@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const array = new Uint32Array(1);
     window.crypto.getRandomValues(array);
     let val = array[0] / (0xFFFFFFFF + 1)
-    console.log(val); // Normalize to [0, 1)
+
     return val;
   }
 
@@ -145,7 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
 
-    console.log(imagesCon.querySelectorAll('.Image'));
   };
   showHeroImages();
 
