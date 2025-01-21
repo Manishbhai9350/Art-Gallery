@@ -54,7 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
   RChilds.forEach((Child, i) => {
     const RObject = Child.querySelector(".r_object");
     const img = document.createElement("img");
-    img.src = Data[i].img;
+    const idx = i % Data.length
+    img.src = Data[idx].img;
     RObject.appendChild(img);
 
     img.onload = () => {
@@ -63,7 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
         scaleX: totalImageLoaded / RChilds.length,
         onComplete() {
           if (totalImageLoaded === RChilds.length) {
-            gsap.to(".loading", { delay: 0.2, scaleX: 0, duration: 0.6, ease: "power2.in" });
+            gsap.to(".loading", {
+              delay: 0.2,
+              scaleX: 0,
+              duration: 0.6,
+              ease: "power2.in",
+            });
             gsap.to(".loader", {
               delay: 0.5,
               y: "-100%",
@@ -77,42 +83,69 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   });
 
+    // Generate a cryptographically random number
+  const Random = () => {
+    const array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    let val = array[0] / (0xFFFFFFFF + 1)
+    console.log(val); // Normalize to [0, 1)
+    return val;
+  }
+
+
   // Optimized image grid display
   const imagesCon = document.querySelector(".landing-images .images");
   const showHeroImages = () => {
     imagesCon.innerHTML = "";
-    const width = innerWidth;
-    const height = innerHeight;
-    const totalWidth = width * 2;
-    const totalHeight = height * 2;
-    const cols = Math.min(10, Math.floor(totalWidth / 100));
-    const rows = Math.min(6, Math.floor(totalHeight / 100));
+
+    const width = innerWidth * 1.3,
+      height = innerHeight * 1.3;
 
     gsap.set(imagesCon, {
-      width: totalWidth,
-      height: totalHeight,
-      gridTemplateRows: `repeat(${rows}, 1fr)`,
-      gridTemplateColumns: `repeat(${cols}, 1fr)`,
+      width,
+      height,
     });
 
-    for (let i = 0; i < cols; i++) {
-      for (let j = 0; j < rows; j++) {
-        const ri = Math.floor(Math.random() * Data.length);
-        const image = document.createElement("div");
-        image.classList.add("Image");
-        image.innerHTML = `<img src='${Data[ri].img}' />`;
+    const { sin, cos, PI, floor, random, min, max } = Math;
 
-        gsap.set(image, {
+    // Constants
+    const Factor = 200; // Spacing between circles
+    let Radius = Factor;
+    // const MaxLoops = min(floor(width / 100), 2); // Cap the loops for performance
+    const MaxLoops = 2; // Cap the loops for performance
+
+    for (let i = 1; i <= MaxLoops; i++) {
+      // Calculate the number of images based on the circle's circumference and image width
+      let circumference = 2 * Math.PI * Radius;
+      let maxImages = Math.floor(circumference / 100); // Assume image width of 100px
+      let InnerLoops = Math.min(maxImages, 8); // Cap the number of images for performance
+      
+      // Calculate the angle increment based on the number of images
+      const DeltaTheta = (2 * Math.PI) / InnerLoops;
+    
+      for (let j = 0; j < InnerLoops; j++) {
+        const Theta = DeltaTheta * j; // Uniform spacing
+        const x = Math.cos(Theta) * Radius;
+        const y = Math.sin(Theta) * Radius;
+    
+        // Create and position the image container
+        const ImgCon = document.createElement('div');
+        ImgCon.classList.add('Image');
+        gsap.set(ImgCon, {
+          position: 'absolute',
+          top: height / 2 + y - 65, // Center vertically (- half height)
+          left: width / 2 + x - 50, // Center horizontally (- half width)
           width: 100,
           height: 100,
-          gridColumn: i + 1,
-          gridRow: j + 1,
-          x: i % 2 === 0 ? (Math.random() - 0.5) * width / 10 : 0,
-          y: j % 2 === 0 ? (Math.random() - 0.5) * width / 10 : 0,
         });
-        imagesCon.appendChild(image);
+        ImgCon.innerHTML = `<img src='${Data[floor(random() * Data.length)].img}' />`
+        imagesCon.appendChild(ImgCon);
       }
+      Radius += Factor; // Increase radius for the next circle
     }
+    
+
+    console.log(imagesCon.querySelectorAll('.Image'));
   };
   showHeroImages();
 
@@ -132,31 +165,47 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, 50);
 
-  document.querySelector(".landing").addEventListener("mousemove", handleImageMove);
+  document
+    .querySelector(".landing")
+    .addEventListener("mousemove", handleImageMove);
 
   // Navigation toggle
   const navIcon = document.querySelector(".nav-lines");
   const navIconLines = navIcon.querySelectorAll(".line");
   let isNavOpen = false;
+  let isAnimating = false;
 
   const toggleNav = () => {
     isNavOpen = !isNavOpen;
-    const timeline = gsap.timeline();
+
+    if (isAnimating) return;
+    const timeline = gsap.timeline({
+      onComplete() {
+        isAnimating = false;
+      },
+    });
+    isAnimating = true;
 
     if (isNavOpen) {
       timeline
         .to(navIconLines[0], { rotate: 45 })
         .to(navIconLines[1], { rotate: -45 }, "<")
-        .to('.nav-lines',{gap:0},'<')
-        .to(".nav-content", { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", duration: 1 })
+        .to(".nav-lines", { gap: 0 }, "<")
+        .to(".nav-content", {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+          duration: 1,
+        },'<')
         .to(".nav-content a", { y: 0, stagger: 0.04 }, "<0.2");
-      } else {
-        timeline
+    } else {
+      timeline
         .to(".nav-content a", { y: "100%", stagger: 0.04 })
-        .to(".nav-content", { clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)", duration: 0.6 }, "<0.2")
-        .to(navIconLines[0], { rotate: 0 })
+        .to(".nav-content", {
+          clipPath: "polygon(0 0, 100% 0, 100% 0%, 0 0%)",
+          duration: 1,
+        },'<')
+        .to(navIconLines[0], { rotate: 0 },'<')
         .to(navIconLines[1], { rotate: 0 }, "<")
-        .to('.nav-lines',{gap:'0.4rem'},'<')
+        .to(".nav-lines", { gap: "0.4rem" }, "<");
     }
   };
 

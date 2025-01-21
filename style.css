@@ -232,10 +232,11 @@ nav .nav-content h1 {
   width: 100%;
   height: 100%;
   z-index: 100;
-  display: -ms-grid;
-  display: grid;
-  place-items: center;
-  grid-gap: 5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .landing .landing-content .landing-images .images .Image {
@@ -249,10 +250,6 @@ nav .nav-content h1 {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
   gap: 5px;
   background: white;
 }
