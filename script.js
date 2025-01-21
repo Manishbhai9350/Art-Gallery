@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   NavIcon.addEventListener("click", ToggleNav);
 
-  document.addEventListener("mousemove", HandleImageMove);
+  document.querySelector('.landing').addEventListener("mousemove", HandleImageMove);
 
   let ResizeID = null;
   window.onresize = () => {

@@ -70,7 +70,7 @@ section {
 
 nav {
   z-index: 10000;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 50%;
   -webkit-transform: translateX(-50%);
@@ -441,5 +441,53 @@ img {
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.page-3 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-family: 'Sans-Var';
+  font-weight: 500;
+  text-align: center;
+}
+
+.page-3 span {
+  font-weight: 600;
+}
+
+.page-3 a {
+  font-size: 1.4rem;
+}
+
+@media (max-width: 800px) {
+  .landing .landing-content .landing-text h1 {
+    font-size: 2.4rem;
+    line-height: 3rem;
+  }
+  .landing .landing-content .landing-text h3 {
+    font-size: .7rem;
+  }
+}
+
+@media (max-width: 500px) {
+  section.page-2 .text .headings {
+    font-size: .8rem;
+    line-height: 1rem;
+  }
+  section.page-2 .text .paras {
+    font-size: .7rem;
+    width: 200px;
+  }
+  section.page-2 .rotating-images .r_images .r_child {
+    width: 60vh !important;
+    height: 60px !important;
+  }
 }
 /*# sourceMappingURL=style.css.map */

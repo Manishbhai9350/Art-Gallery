@@ -78,7 +78,7 @@ section {
 
 nav {
   z-index: 10000;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -338,4 +338,52 @@ img {
   height: 100%;
   width: 100%;
   object-fit: cover;
+}
+
+.page-3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Sans-Var';
+  font-weight: 500;
+  text-align: center;
+  span {
+    font-weight: 600;
+  }
+  a {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width:800px) {
+  .landing .landing-content .landing-text {
+    h1 {
+      font-size: 2.4rem;
+      line-height: 3rem;
+    }
+    h3 {
+      font-size: .7rem;
+    }
+  }
+}
+
+@media (max-width:500px) {
+  section.page-2 {
+    .text {
+      .headings {
+        font-size: .8rem;
+        line-height: 1rem;
+      }
+      .paras {
+        font-size: .7rem;
+        width: 200px;
+      }
+    }
+    .rotating-images{
+    .r_images .r_child {
+      width: 60vh!important;
+      height: 60px!important;
+    }
+  }
+}
 }
