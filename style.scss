@@ -151,6 +151,15 @@ nav .nav-content {
   }
 }
 
+.text-w  {
+  overflow: hidden;
+  span {
+    display: inline-block;
+    position: relative;
+    // transform: translateY(33px);
+  }
+}
+
 .landing {
   overflow: hidden;
   .landing-content {

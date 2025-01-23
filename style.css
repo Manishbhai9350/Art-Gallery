@@ -175,6 +175,15 @@ nav .nav-content h1 {
   position: relative;
 }
 
+.text-w {
+  overflow: hidden;
+}
+
+.text-w span {
+  display: inline-block;
+  position: relative;
+}
+
 .landing {
   overflow: hidden;
 }
